@@ -1,13 +1,10 @@
-#
-#   Main file, application entry point
-#
+"""
+   Main
+   - application entry point
+"""
 
-import Tic_tac_toe as toe
+import cli
 
 if __name__ == "__main__":
-    game = toe.TicTacToe()
-
-    print("Game initiated!!!")
-    while not game.game_finished:
-        print(game)
-
+    # Starts cli
+    cli.init()

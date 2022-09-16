@@ -1,18 +1,22 @@
+"""
+    Tic-tac-toe
+    - Module to implement tic-tac-toe game
+"""
 import copy
 
 
 class TicTacToe:
-    __X = 1
-    __O = 2
-    __EMPTY = 0
+    X = 1
+    O = 2
+    EMPTY = 0
 
-    __X_symbol = "X"
-    __O_symbol = "O"
-    __EMPTY_SYMBOL = "_"
+    X_symbol = "X"
+    O_symbol = "O"
+    EMPTY_SYMBOL = "_"
 
     def __init__(self):
         self.__board = self.__create_board()
-        self.__turn = self.__X
+        self.__turn = self.X
         self.__moves = 0
         self.__game_finished = False
 
@@ -22,16 +26,17 @@ class TicTacToe:
         for row in self.__board:
             board += "| "
             for i in range(3):
-                if row[i] == self.__X:
-                    board += self.__X_symbol
-                elif row[i] == self.__O:
-                    board += self.__O_symbol
+                if row[i] == self.X:
+                    board += self.X_symbol
+                elif row[i] == self.O:
+                    board += self.O_symbol
                 else:
-                    board += self.__EMPTY_SYMBOL
+                    board += self.EMPTY_SYMBOL
             board += " |"
             board += '\n'
 
         board += "-------\n"
+        board += f"Turn: {self.turn}, Moves: {self.moves}"
         return board
 
     @property
@@ -40,14 +45,14 @@ class TicTacToe:
 
     @property
     def turn(self):
-        return self.__turn
+        return self.X_symbol if self.__turn == self.X else self.O_symbol
 
     @property
     def moves(self):
         return self.__moves
 
     @property
-    def game_finished(self):
+    def finished(self):
         return self.__game_finished
 
     def next_move(self, x, y):
@@ -55,25 +60,25 @@ class TicTacToe:
             raise CoordinateOutOfRange(x, y)
         elif self.__game_finished:
             raise GameAlreadyFinished()
-        elif self.__board[x][y] != self.__EMPTY:
+        elif self.__board[x][y] != self.EMPTY:
             raise SquareOccupied(x, y)
         else:
             self.__board[x][y] = self.__turn
             self.__turn = self.__next_turn()
             self.__moves += 1
-            if self.__moves == 9 or self.game_status() != 0:
+            if self.__moves == 9 or self.status() != 0:
                 self.__game_finished = True
 
     def __next_turn(self):
-        if self.__turn == self.__X:
-            return self.__O
+        if self.__turn == self.X:
+            return self.O
         else:
-            return self.__X
+            return self.X
 
     def __create_board(self):
-        return [[self.__EMPTY for _ in range(3)] for _ in range(3)]
+        return [[self.EMPTY for _ in range(3)] for _ in range(3)]
 
-    def game_status(self):
+    def status(self):
         if self.__moves > 4:
             # Checking rows
             for row in self.__board:
@@ -93,7 +98,7 @@ class TicTacToe:
             if self.__board[0][2] == self.__board[1][1] == self.__board[2][0]:
                 return self.__board[0][2]
 
-        return self.__EMPTY
+        return self.EMPTY
 
 
 # Exception classes
